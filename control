@@ -1,0 +1,9 @@
+Package: com.greeny.nomotion
+Name: NoMotion
+Depends: mobilesubstrate
+Version: 0.0.1
+Architecture: iphoneos-arm
+Description: An awesome MobileSubstrate tweak!
+Maintainer: Thomas Greenwood
+Author: Thomas Greenwood
+Section: Tweaks
