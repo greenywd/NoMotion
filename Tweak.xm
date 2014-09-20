@@ -35,9 +35,9 @@ if(Enabled){
 %hook SpringBoard
 -(void)applicationDidFinishLaunching:(id)application{
   %orig;
-    BOOL ranBefore = [[NSUserDefaults standardUserDefaults] boolForKey:@"RanBefore"];
+    BOOL ranBeforeNoMotion = [[NSUserDefaults standardUserDefaults] boolForKey:@"ranBeforeNoMotion"];
 
-    if (!ranBefore) {
+    if (!ranBeforeNoMotion) {
         UIAlertView *alert = [[UIAlertView alloc]
                           initWithTitle:@"Hey There!"
                           message:@"Thank you for downloading NoMotion!\n If you appreciate my work, please donate by using the button in the settings app."
@@ -46,7 +46,7 @@ if(Enabled){
                           otherButtonTitles:nil];
         [alert show];
         [alert release];
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"RanBefore"];
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"ranBeforeNoMotion"];
         [[NSUserDefaults standardUserDefaults] synchronize];
 	} 
 }
