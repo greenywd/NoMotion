@@ -1,14 +1,5 @@
-
-//Initialize the variables.
 bool enabled;
-
-static void loadPreferences() {
-    CFPreferencesAppSynchronize(CFSTR("com.greeny.nomotion"));
-    //In this case, you get the value for the key "enabled"
-    //you could do the same thing for any other value, just cast it to id and use the conversion methods
-    //if the value doesn't exist (i.e. the user hasn't changed their preferences), it is set to the value after the "?:" (in this case, YES and @"default", respectively
-    enabled = [(id)CFPreferencesCopyAppValue(CFSTR("enabled"), CFSTR("com.greeny.nomotion")) boolValue];
-}
+NSString *tweakName = @"NoMotion";
 
 %hook _UIMotionEffectEngine
 + (BOOL)_motionEffectsSupported{
@@ -38,12 +29,36 @@ static void loadPreferences() {
 }
 %end
 
+static NSDictionary *prefs;
+static void loadPrefs() {
+    [prefs release];
+    prefs = [[NSDictionary alloc] initWithContentsOfFile:[NSHomeDirectory() stringByAppendingPathComponent:@"Library/Preferences/com.greeny.nomotion.plist"]];
+    CFStringRef appID = CFSTR("com.greeny.nomotion");
+    CFArrayRef keyList = CFPreferencesCopyKeyList(appID, kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
+    if (!keyList) {
+        return;
+    }
+    prefs = (NSDictionary *)CFPreferencesCopyMultiple(keyList, appID, kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
+    if (!prefs) {
+        NSLog(@"[%@] Preferences not loaded correctly.", tweakName);
+    }
+    
+    NSLog(@"[%@] The settings dictionary is %@", tweakName, prefs);
+    enabled = ([prefs objectForKey:@"enabled"] ? [[prefs objectForKey:@"enabled"] boolValue] : enabled);
+    NSLog(@"[%@] isEnabled is %d", tweakName, enabled);
+
+    CFRelease(keyList);
+    
+}
+
+static void settingschanged(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo){
+    loadPrefs();
+    
+    
+}
+
+
 %ctor {
-    CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(),
-                                NULL,
-                                (CFNotificationCallback)loadPreferences,
-                                CFSTR("com.greeny.nomotion/prefsChanged"),
-                                NULL,
-                                CFNotificationSuspensionBehaviorDeliverImmediately);
-    loadPreferences();
+    CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, settingschanged, CFSTR("com.greeny.nomotion/prefschanged"), NULL, CFNotificationSuspensionBehaviorCoalesce);
+    loadPrefs();
 }
