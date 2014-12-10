@@ -1,9 +1,9 @@
 bool enabled;
-NSString *tweakName = @"NoMotion";
+//NSString *tweakName = @"NoMotion";
 
 %hook _UIMotionEffectEngine
 + (BOOL)_motionEffectsSupported{
-    if(enabled){
+    if(!enabled){
     return NO;
 } else {
     return YES;
@@ -11,7 +11,7 @@ NSString *tweakName = @"NoMotion";
 }
 
 + (BOOL)_motionEffectsEnabled{
-    if(enabled){
+    if(!enabled){
     return NO;
 } else {
     return YES;
@@ -21,7 +21,7 @@ NSString *tweakName = @"NoMotion";
 
 %hook UIView
 + (BOOL)_shouldEnableUIKitDefaultParallaxEffects{
-    if(enabled){
+    if(!enabled){
     return NO;
 } else {
     return YES;
@@ -29,6 +29,7 @@ NSString *tweakName = @"NoMotion";
 }
 %end
 
+/*
 static NSDictionary *prefs;
 static void loadPrefs() {
     [prefs release];
