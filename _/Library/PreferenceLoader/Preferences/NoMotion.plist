@@ -1,0 +1,10 @@
+{
+    entry = {
+	bundle = NoMotion;
+	cell = PSLinkCell;
+	detail = NoMotionListController;
+	icon = NoMotion.png;
+	isController = 1;
+	label = NoMotion;
+    };
+}
