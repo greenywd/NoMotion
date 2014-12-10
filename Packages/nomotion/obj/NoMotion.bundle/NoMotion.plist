@@ -22,7 +22,7 @@
 			<key>label</key>
 			<string>Enabled</string>
 			<key>PostNotification</key>
-			<string>com.greeny.nomotion/prefsChanged</string>
+			<string>com.greeny.nomotion/prefschanged</string>
 		</dict>
 	</array>
 	<key>title</key>
