@@ -2,9 +2,10 @@ Package: com.greeny.nomotion
 Name: NoMotion
 Depends: mobilesubstrate
 Architecture: iphoneos-arm
-Description: An awesome MobileSubstrate tweak!
+Description: Remove the parallax effect, everywhere.
 Maintainer: GreenyDev
 Author: GreenyDev
+Depiction: http://greenydev.github.io/repo/nomotion/index.html
 Section: Tweaks
-Version: 0.0.1-9
+Version: 1.1beta--1
 Installed-Size: 280
