@@ -1,12 +1,11 @@
 ARCHS = armv7 arm64
-TARGET = iphone:clang:latest:latest
 
 include theos/makefiles/common.mk
 
 BUNDLE_NAME = NoMotion
 NoMotion_FILES = NoMotion.mm
 NoMotion_INSTALL_PATH = /Library/PreferenceBundles
-NoMotion_FRAMEWORKS = UIKit
+NoMotion_FRAMEWORKS = UIKit Twitter
 NoMotion_PRIVATE_FRAMEWORKS = Preferences
 
 include $(THEOS_MAKE_PATH)/bundle.mk

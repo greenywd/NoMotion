@@ -1,4 +1,4 @@
-bool enabled = YES;
+bool enabled;
 
 %hook _UIMotionEffectEngine
 + (BOOL)_motionEffectsSupported{
