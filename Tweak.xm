@@ -1,4 +1,4 @@
-bool enabled;
+bool enabled = YES;
 
 %hook _UIMotionEffectEngine
 + (BOOL)_motionEffectsSupported{
@@ -26,13 +26,27 @@ bool enabled;
     return %orig;
     }
 }
++ (BOOL)_motionEffectsEnabled{
+    if(enabled){
+    return NO;
+} else {
+    return %orig;
+    }
+}
++ (BOOL)_motionEffectsSupported{
+    if(enabled){
+    return NO;
+} else {
+    return %orig;
+    }
+}
 %end
 
 //Preferences
 static void loadPreferences() {
     CFPreferencesAppSynchronize(CFSTR("com.greeny.nomotion"));
 
-    enabled = [(id)CFPreferencesCopyAppValue(CFSTR("enabled"), CFSTR("com.greeny.nomotion")) boolValue];
+    //enabled = [(id)CFPreferencesCopyAppValue(CFSTR("enabled"), CFSTR("com.greeny.nomotion")) boolValue];
 }
 
 %ctor {
