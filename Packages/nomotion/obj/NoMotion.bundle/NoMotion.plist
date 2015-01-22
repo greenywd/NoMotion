@@ -16,13 +16,9 @@
 			</dict>
 			<dict>
 				<key>cell</key>
-				<string>PSGroupCell</string>
-				<key>footerText</key>
-				<string>Hi, this isn't working yet :/</string>
-			</dict>
-			<dict>
-				<key>cell</key>
 				<string>PSSwitchCell</string>
+				<key>enabled</key>
+				<true/>
 				<key>default</key>
 				<true/>
 				<key>defaults</key>

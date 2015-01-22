@@ -1,0 +1,6 @@
+#!/bin/bash
+
+echo ""
+echo "Cleaning old preferences..."
+rm -rf /var/mobile/Library/Preferences/com.greeny.nomotion.plist
+echo ""
