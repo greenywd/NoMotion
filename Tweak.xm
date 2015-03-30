@@ -1,63 +1,42 @@
-bool enabled = YES;
-//Boolean keyExists; 
+#import <substrate.h>
+
+// Destroy all the things!!
+
+%hook _UIMotionEffectEngineClient
+
+- (id)initWithMotionEffect:(id)arg1 view:(id)arg2
+{
+	return nil;
+}
+
+%end
 
 %hook _UIMotionEffectEngine
-+ (BOOL)_motionEffectsSupported{
-    if(enabled){
-    return NO;
-} else {
-    return %orig;
-    }
+
+- (id)init
+{
+	return nil;
 }
 
-+ (BOOL)_motionEffectsEnabled{
-    if(enabled){
-    return NO;
-} else {
-    return %orig;
-    }
-}
 %end
+
+// Tell UIView motion effect is gone
 
 %hook UIView
-+ (BOOL)_shouldEnableUIKitDefaultParallaxEffects{
-    if(enabled){
+
++ (BOOL)_shouldEnableUIKitDefaultParallaxEffects
+{
     return NO;
-} else {
-    return %orig;
-    }
 }
-+ (BOOL)_motionEffectsEnabled{
-    if(enabled){
+
++ (BOOL)_motionEffectsEnabled
+{
+   return NO;
+}
+
++ (BOOL)_motionEffectsSupported
+{
     return NO;
-} else {
-    return %orig;
-    }
 }
-+ (BOOL)_motionEffectsSupported{
-    if(enabled){
-    return NO;
-} else {
-    return %orig;
-    }
-}
+
 %end
-
-//Preferences
-static void loadPreferences() {
-    CFPreferencesAppSynchronize(CFSTR("com.greeny.nomotion"));
-
-    //enabled = [(id)CFPreferencesCopyAppValue(CFSTR("enabled"), CFSTR("com.greeny.nomotion")) boolValue];
-    //enabled = CFPreferencesGetAppBooleanValue(CFSTR("enabled"), CFSTR("com.greeny.nomotion"), &keyExists);
-    enabled = !CFPreferencesCopyAppValue(CFSTR("enabled"), CFSTR("com.greeny.nomotion")) ? YES : [(id)CFPreferencesCopyAppValue(CFSTR("enabled"), CFSTR("com.greeny.nomotion")) boolValue];
-}
-
-%ctor {
-    CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(),
-                                NULL,
-                                (CFNotificationCallback)loadPreferences,
-                                CFSTR("com.greeny.nomotion/prefschanged"),
-                                NULL,
-                                CFNotificationSuspensionBehaviorDeliverImmediately);
-    loadPreferences();
-}
